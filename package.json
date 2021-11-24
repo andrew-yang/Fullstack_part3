@@ -19,9 +19,11 @@
   },
   "homepage": "https://github.com/andrew-yang/Fullstack_part3#readme",
   "dependencies": {
+    "@heroku/buildpack-registry": "^1.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "heroku": "^7.59.2",
+    "heroku-cli": "^7.0.9",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
