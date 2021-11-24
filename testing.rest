@@ -1,8 +1,8 @@
-DELETE http://localhost:3001/api/persons/1
+DELETE https://evening-reaches-95195.herokuapp.com/api/persons/1
 ###
-GET http://localhost:3001/api/persons
+GET https://evening-reaches-95195.herokuapp.com/api/persons
 ###
-POST http://localhost:3001/api/persons
+POST https://evening-reaches-95195.herokuapp.com/api/persons
 Content-Type: application/json
 
 {
