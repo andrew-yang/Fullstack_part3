@@ -26,6 +26,10 @@
     "heroku-cli": "^7.0.9",
     "morgan": "^1.10.0"
   },
+  "engines": {
+    "node": ">= v17.0.0",
+    "npm": ">= 8.1.0"
+  },
   "devDependencies": {
     "nodemon": "^2.0.15"
   }
