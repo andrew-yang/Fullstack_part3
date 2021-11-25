@@ -65,33 +65,20 @@ app.post('/api/persons', (request, response, next) => {
         })
     }
 
-    //Check if Person exists
-    Person.find({name: request.body.name}).then(result => {
-        
-        //Duplicate Found or Not
-        if(result.length !== 0){
-            //Entry Found
-            response.status(204).end()
-        } else {
-            //No Duplicate
-            //Entry Creation
-            const newPerson = new Person({
-                name: request.body.name,
-                number: request.body.number,
-                id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER),
-            })        
+    //Entry Creation
+    const newPerson = new Person({
+        name: request.body.name,
+        number: request.body.number,
+    })        
 
-            //Save to DB
-            newPerson.save().then(
-                result => {
-                    console.log('Person '+ newPerson.name +' Saved!')
-                }
-            ).catch(error => next(error))
-
+    //Save to DB
+    newPerson.save().then(
+        result => {
+            console.log('Person '+ newPerson.name +' Saved!')
             //Responding to Request
             response.json(newPerson)
-        }
-    })
+            }
+    ).catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
@@ -108,7 +95,7 @@ app.put('/api/persons/:id', (request, response, next) => {
         number: request.body.number,
     }
 
-    Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    Person.findByIdAndUpdate(request.params.id, person, { runValidators: true }, { new: true })
     .then(updatedPerson => {
       response.json(updatedPerson)
     })
@@ -122,11 +109,12 @@ const unknownEndpoint = (request, response) => {
 const errorHandler = (error, request, response, next) => {
 
     console.error(error.message)
-    console.log("IN ERROR HANDLER")
     if (error.name === 'CastError') {
-      response.status(400).send({ error: 'malformatted id' })
-    } 
-  
+        response.status(400).send({ error: 'malformatted id' })
+    } else if (error.name === 'MongoServerError' || error.name === 'ValidationError') {
+        response.status(400).json({ error: error.message })
+    }
+
     next(error)
 }
 
