@@ -27,15 +27,15 @@ const PhoneBookEntry = mongoose.model('PhoneBookEntry', phoneBookEntrySchema)
 
 if(process.argv.length === 3){
     //Get Phonebook
-    console.log("phonebook:")
+    console.log('phonebook:')
     PhoneBookEntry.find({}).then(result => {
         result.forEach(note => {
-          console.log(note)
+            console.log(note)
         })
         mongoose.connection.close()
-      })
+    })
 
-} else if(process.argv.length == 5){
+} else if(process.argv.length === 5){
 
     const phoneBookEntry = new PhoneBookEntry({
         name: newName,
@@ -43,7 +43,7 @@ if(process.argv.length === 3){
     })
 
     phoneBookEntry.save().then(
-        result => {
+        () => {
             console.log('note Saved!')
             mongoose.connection.close()
         }

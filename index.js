@@ -38,7 +38,7 @@ app.get('/api/persons', (request, response, next) => {
 
 app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id).then(
-        result =>{
+        result => {
             console.log(result)
             if(result){
                 response.json(result)
@@ -51,10 +51,10 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
     Person.findByIdAndRemove(request.params.id)
-        .then(result =>{
+        .then( () => {
             response.status(204).end()
         }
-    ).catch(error => next(error))
+        ).catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response, next) => {
@@ -69,15 +69,15 @@ app.post('/api/persons', (request, response, next) => {
     const newPerson = new Person({
         name: request.body.name,
         number: request.body.number,
-    })        
+    })
 
     //Save to DB
     newPerson.save().then(
-        result => {
+        () => {
             console.log('Person '+ newPerson.name +' Saved!')
             //Responding to Request
             response.json(newPerson)
-            }
+        }
     ).catch(error => next(error))
 })
 
@@ -89,17 +89,17 @@ app.put('/api/persons/:id', (request, response, next) => {
             error: 'missing number'
         })
     }
-    
+
     //Create the new data
     const person = {
         number: request.body.number,
     }
 
     Person.findByIdAndUpdate(request.params.id, person, { runValidators: true }, { new: true })
-    .then(updatedPerson => {
-      response.json(updatedPerson)
-    })
-    .catch(error => next(error))
+        .then(updatedPerson => {
+            response.json(updatedPerson)
+        })
+        .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
@@ -125,5 +125,5 @@ app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+    console.log(`Server running on port ${PORT}`)
 })
