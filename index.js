@@ -95,11 +95,10 @@ app.put('/api/persons/:id', (request, response, next) => {
         number: request.body.number,
     }
 
-    Person.findByIdAndUpdate(request.params.id, person, { runValidators: true }, { new: true })
+    Person.findByIdAndUpdate(request.params.id, person, { runValidators: true, new: true })
         .then(updatedPerson => {
             response.json(updatedPerson)
-        })
-        .catch(error => next(error))
+        }).catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
